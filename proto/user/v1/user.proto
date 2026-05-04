@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package cdek.user.v1;
+
+option go_package = "cdek/platform/shared/contracts/user/v1;userv1";
+
+service UserService {
+  rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse);
+  rpc BatchGetUsers(BatchGetUsersRequest) returns (BatchGetUsersResponse);
+}
+
+message GetCurrentUserRequest {
+  string user_id = 1;
+}
+
+message GetCurrentUserResponse {
+  UserSummary user = 1;
+}
+
+message BatchGetUsersRequest {
+  repeated string user_ids = 1;
+}
+
+message BatchGetUsersResponse {
+  repeated UserSummary users = 1;
+}
+
+message UserSummary {
+  string id = 1;
+  string name = 2;
+  string title = 3;
+  string company = 4;
+  int32 level = 5;
+  string level_text = 6;
+  string joined_at = 7;
+  string location = 8;
+  string team = 9;
+}

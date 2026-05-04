@@ -1,0 +1,7 @@
+$env:USER_SERVICE_ADDRESS=':15051'
+$env:POSTGRES_HOST='127.0.0.1'
+$env:POSTGRES_PORT='5432'
+$env:POSTGRES_DB='postgres'
+$env:POSTGRES_USER='postgres'
+$env:POSTGRES_PASSWORD='1234'
+& 'C:\Users\User\Desktop\CDEK\services\user-service\tmp\user-service.exe'

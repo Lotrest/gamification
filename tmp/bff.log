@@ -1,0 +1,13 @@
+time=2026-04-27T14:36:43.236+07:00 level=INFO msg="bff started" address=:18080
+time=2026-04-27T14:36:43.236+07:00 level=INFO msg="metrics server started" address=:19090
+
+ ┌───────────────────────────────────────────────────┐ 
+ │                   Fiber v2.52.9                   │ 
+ │              http://127.0.0.1:18080               │ 
+ │      (bound on host 0.0.0.0 and port 18080)       │ 
+ │                                                   │ 
+ │ Handlers ............ 30  Processes ........... 1 │ 
+ │ Prefork ....... Disabled  PID .............. 3620 │ 
+ └───────────────────────────────────────────────────┘ 
+
+time=2026-04-28T02:36:30.179+07:00 level=INFO msg="shutdown signal received"

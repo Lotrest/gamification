@@ -1,0 +1,86 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cdek-postgres
+    environment:
+      POSTGRES_DB: cdek_platform
+      POSTGRES_USER: cdek
+      POSTGRES_PASSWORD: cdek
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cdek -d cdek_platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  user-service:
+    build:
+      context: .
+      dockerfile: services/user-service/Dockerfile
+    container_name: cdek-user-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cdek_platform
+      POSTGRES_USER: cdek
+      POSTGRES_PASSWORD: cdek
+    ports:
+      - "50051:50051"
+
+  gamification-service:
+    build:
+      context: .
+      dockerfile: services/gamification/Dockerfile
+    container_name: cdek-gamification-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cdek_platform
+      POSTGRES_USER: cdek
+      POSTGRES_PASSWORD: cdek
+    ports:
+      - "50052:50052"
+
+  bff:
+    build:
+      context: .
+      dockerfile: bff/Dockerfile
+    container_name: cdek-bff
+    depends_on:
+      postgres:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+      gamification-service:
+        condition: service_started
+    environment:
+      USER_SERVICE_GRPC: user-service:50051
+      GAMIFICATION_SERVICE_GRPC: gamification-service:50052
+      BFF_ADDRESS: :8080
+      BFF_METRICS_ADDRESS: :9090
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: cdek-frontend
+    depends_on:
+      - bff
+    ports:
+      - "4173:80"
+
+volumes:
+  postgres-data:

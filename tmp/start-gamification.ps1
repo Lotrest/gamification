@@ -1,0 +1,7 @@
+$env:GAMIFICATION_SERVICE_ADDRESS=':15052'
+$env:POSTGRES_HOST='127.0.0.1'
+$env:POSTGRES_PORT='5432'
+$env:POSTGRES_DB='postgres'
+$env:POSTGRES_USER='postgres'
+$env:POSTGRES_PASSWORD='1234'
+& 'C:\Users\User\Desktop\CDEK\services\gamification\tmp\gamification.exe'

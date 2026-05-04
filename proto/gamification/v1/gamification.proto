@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package cdek.gamification.v1;
+
+option go_package = "cdek/platform/shared/contracts/gamification/v1;gamificationv1";
+
+service GamificationService {
+  rpc GetPortalSnapshot(GetPortalSnapshotRequest) returns (GetPortalSnapshotResponse);
+  rpc AcceptTask(AcceptTaskRequest) returns (MutationResponse);
+  rpc AdvanceTask(AdvanceTaskRequest) returns (MutationResponse);
+  rpc RedeemReward(RedeemRewardRequest) returns (MutationResponse);
+}
+
+message GetPortalSnapshotRequest {
+  string user_id = 1;
+}
+
+message AcceptTaskRequest {
+  string user_id = 1;
+  string task_id = 2;
+}
+
+message AdvanceTaskRequest {
+  string user_id = 1;
+  string task_id = 2;
+}
+
+message RedeemRewardRequest {
+  string user_id = 1;
+  string reward_id = 2;
+}
+
+message MutationResponse {
+  GetPortalSnapshotResponse snapshot = 1;
+}
+
+message GetPortalSnapshotResponse {
+  UserSummary summary = 1;
+  repeated MetricCard metrics = 2;
+  repeated ActivityPoint weekly_activity = 3;
+  repeated ArticleCard articles = 4;
+  repeated ActivityItem recent_activity = 5;
+  repeated TaskItem tasks = 6;
+  repeated AchievementBucket achievement_buckets = 7;
+  repeated AchievementItem achievements = 8;
+  repeated LeaderboardEntry leaderboard = 9;
+  repeated RewardItem rewards = 10;
+  repeated PurchaseItem purchases = 11;
+  repeated NotificationItem notifications = 12;
+}
+
+message UserSummary {
+  string user_id = 1;
+  int32 current_xp = 2;
+  int32 level = 3;
+  string level_text = 4;
+  int32 progress_percent = 5;
+  int32 xp_to_next_level = 6;
+  int32 coins = 7;
+  int32 today_earned = 8;
+  int32 streak_days = 9;
+  int32 rank = 10;
+  int32 total_badges = 11;
+  int32 completed_tasks = 12;
+}
+
+message MetricCard {
+  string id = 1;
+  string label = 2;
+  string value = 3;
+  string caption = 4;
+}
+
+message ActivityPoint {
+  string day = 1;
+  int32 xp = 2;
+}
+
+message ArticleCard {
+  string id = 1;
+  string title = 2;
+  int32 views = 3;
+  int32 comments = 4;
+  int32 xp = 5;
+  string rating = 6;
+}
+
+message ActivityItem {
+  string id = 1;
+  string title = 2;
+  string timestamp = 3;
+  int32 xp = 4;
+}
+
+message TaskItem {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string status = 4;
+  int32 progress = 5;
+  int32 target = 6;
+  int32 reward_xp = 7;
+}
+
+message AchievementBucket {
+  string id = 1;
+  string label = 2;
+  int32 collected = 3;
+  int32 total = 4;
+  string accent = 5;
+}
+
+message AchievementItem {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string rarity = 4;
+  string status = 5;
+  int32 reward_xp = 6;
+}
+
+message LeaderboardEntry {
+  string user_id = 1;
+  int32 rank = 2;
+  int32 xp = 3;
+  string level_text = 4;
+}
+
+message RewardItem {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  int32 cost = 4;
+  string status = 5;
+  string category = 6;
+}
+
+message PurchaseItem {
+  string id = 1;
+  string reward_id = 2;
+  string title = 3;
+  int32 cost = 4;
+  string redeemed_at = 5;
+  string status = 6;
+}
+
+message NotificationItem {
+  string id = 1;
+  string title = 2;
+  string body = 3;
+  string variant = 4;
+}

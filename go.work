@@ -1,0 +1,8 @@
+go 1.26
+
+use (
+    ./shared/contracts
+    ./bff
+    ./services/user-service
+    ./services/gamification
+)
